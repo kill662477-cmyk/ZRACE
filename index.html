@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>저글링 레이스 · 자동</title>
+  <link rel="icon" href="source/img/favicon.png" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard-dynamic-subset.min.css"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="zr-main">
+    <!-- 헤더 -->
+    <header class="zr-header">
+      <div class="zr-anim">
+        <div class="zr-anim__shadow" id="zerglingRaceAnimationShadow"></div>
+        <img
+          class="zr-anim__img"
+          id="zerglingRaceAnimationImage"
+          src="source/img/zergling.png"
+          alt="zergling"
+        />
+      </div>
+      <div class="zr-titlebox">
+        <h1 class="zr-title">저글링 레이스</h1>
+        <p class="zr-subtitle">10분마다 자동으로 3명이 달립니다</p>
+      </div>
+
+      <div class="zr-bgm">
+        <button class="zr-bgm__btn" id="bgmToggle" type="button" aria-label="BGM 재생/정지">▶</button>
+        <span class="zr-bgm__icon">🔊</span>
+        <input class="zr-bgm__vol" id="bgmVolume" type="range" min="0" max="100" value="35" aria-label="볼륨" />
+      </div>
+
+      <div class="zr-badge" id="roundBadge">오늘 1회차 대기</div>
+    </header>
+
+    <div class="zr-body">
+      <!-- 중앙: 레이스 캔버스 + 대기화면 오버레이 -->
+      <section class="zr-game">
+        <canvas id="zerglingRaceCanvas"></canvas>
+
+        <div class="zr-standby" id="standby">
+          <div class="zr-standby__round" id="sbRound">다음 1회차</div>
+
+          <div class="zr-standby__timer">
+            <span class="zr-standby__timer-label">시작까지</span>
+            <span class="zr-standby__timer-time" id="sbCountdown">--:--</span>
+          </div>
+
+          <div class="zr-standby__next">
+            <div class="zr-standby__next-label">다음 출전 선수</div>
+            <div class="zr-standby__next-list" id="sbNext"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 우측: 오늘의 회차별 우승자 -->
+      <aside class="zr-today">
+        <div class="zr-today__header">
+          <span>오늘의 우승 기록</span>
+          <span class="zr-today__count" id="todayCount">0회</span>
+        </div>
+        <div class="zr-today__list" id="todayList"></div>
+        <div class="zr-today__empty" id="todayEmpty">아직 진행된 회차가 없어요</div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- 엔진(원본) → Supabase 설정 → 자동 컨트롤러 순서로 로드 -->
+  <script src="js/zergling-race.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auto-controller.js"></script>
+</body>
+</html>

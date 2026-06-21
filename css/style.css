@@ -1,0 +1,304 @@
+@font-face {
+  font-family: "omyu pretty";
+  src: url("../source/font/omyu_pretty.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --maroon-1: #4a1717;
+  --maroon-2: #6b2020;
+  --maroon-deep: #7c2828;
+  --amber: #ffbd2e;
+  --amber-soft: #ffd77a;
+  --ink: #1a0c0c;
+  --panel: rgba(0, 0, 0, 0.32);
+  --panel-line: rgba(255, 255, 255, 0.14);
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Pretendard", system-ui, sans-serif;
+  color: var(--white);
+  background: radial-gradient(120% 120% at 50% 0%, var(--maroon-2) 0%, var(--maroon-1) 70%);
+  display: flex;
+  justify-content: center;
+  padding: 28px 20px;
+}
+
+.zr-main {
+  width: 100%;
+  max-width: 1480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ===== 헤더 ===== */
+.zr-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 6px 4px;
+}
+
+.zr-anim {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: visible;
+}
+.zr-anim__img {
+  width: 56px; /* 엔진 애니메이션이 인라인 width로 덮어씀(컨트롤러에서 작게 설정) */
+  transform-origin: bottom center;
+  will-change: transform, width;
+}
+/* 엔진의 기본 그림자는 큰 캐릭터 기준이라 작은 헤더에선 숨김 */
+.zr-anim__shadow {
+  display: none !important;
+}
+
+.zr-titlebox { flex: 1; }
+.zr-title {
+  font-family: "omyu pretty", "Pretendard", sans-serif;
+  font-size: 40px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+.zr-subtitle {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--amber-soft);
+  opacity: 0.9;
+}
+
+.zr-badge {
+  font-size: 17px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  white-space: nowrap;
+}
+.zr-badge.is-racing {
+  background: var(--amber);
+  color: var(--ink);
+  border-color: var(--amber);
+}
+
+/* ===== BGM 컨트롤 ===== */
+.zr-bgm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+}
+.zr-bgm__btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--amber);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.08s ease;
+}
+.zr-bgm__btn:active { transform: scale(0.92); }
+.zr-bgm__icon { font-size: 15px; opacity: 0.85; }
+.zr-bgm__vol {
+  width: 110px;
+  accent-color: var(--amber);
+  cursor: pointer;
+}
+
+/* ===== 본문 ===== */
+.zr-body {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.zr-game {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: var(--maroon-deep);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#zerglingRaceCanvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== 대기화면 오버레이 ===== */
+.zr-standby {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(74, 23, 23, 0.92), rgba(40, 12, 12, 0.96));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  text-align: center;
+  padding: 24px;
+}
+.zr-standby.is-hidden { display: none; }
+
+.zr-standby__round {
+  font-family: "omyu pretty", "Pretendard", sans-serif;
+  font-size: 34px;
+  color: var(--amber);
+}
+
+.zr-standby__timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.zr-standby__timer-label {
+  font-size: 15px;
+  letter-spacing: 4px;
+  color: var(--amber-soft);
+}
+.zr-standby__timer-time {
+  font-size: 86px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.zr-standby__next-label {
+  font-size: 15px;
+  color: var(--amber-soft);
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+.zr-standby__next-list {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.zr-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 14px;
+  padding: 14px 20px;
+  min-width: 110px;
+}
+.zr-chip img { width: 48px; }
+.zr-chip span {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ===== 오늘의 우승 기록 ===== */
+.zr-today {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.zr-today__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  font-size: 17px;
+  font-weight: 800;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--panel-line);
+}
+.zr-today__count {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--amber);
+}
+.zr-today__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column-reverse; /* 최신 회차가 위로 */
+  justify-content: flex-end;
+  gap: 6px;
+}
+.zr-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.zr-row.is-latest {
+  background: rgba(255, 189, 46, 0.18);
+  border: 1px solid rgba(255, 189, 46, 0.5);
+}
+.zr-row__round {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--amber-soft);
+  width: 52px;
+  flex-shrink: 0;
+}
+.zr-row__win {
+  font-size: 16px;
+  font-weight: 700;
+}
+.zr-row__win::before {
+  content: "🏆 ";
+}
+.zr-today__empty {
+  padding: 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+}
+
+.zr-footer {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 1100px) {
+  .zr-body { flex-direction: column; }
+  .zr-today { width: 100%; height: 240px; }
+}
